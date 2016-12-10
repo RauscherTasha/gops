@@ -21,13 +21,15 @@ class Login extends CI_Controller
     public function validate_credentials()
     {
         $this->load->view('includes/header');
-        $this->load->view('login_form');
+        echo "Validate coming soon!";
         $this->load->view('includes/footer');
 
     }
 
     public function create_account()
     {
-
+        $this->load->view('includes/header');
+        echo "Create Account coming soon!";
+        $this->load->view('includes/footer');
     }
 }

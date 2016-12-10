@@ -9,8 +9,7 @@
     echo form_input('username', set_value('username','Username'));
     echo form_password('password', '', 'placeholder="Password" class="Password"');
     echo form_password('password_confirm', '', 'placeholder="Confirm Password" class="Password"');
-    echo form_submit('submit', 'Login');
-    echo anchor('login/signup', 'Create Account');
+    echo form_submit('submit', 'Create Account');
     echo form_close();
     ?>
 
