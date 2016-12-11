@@ -13,5 +13,6 @@
     echo anchor('login/signup', 'Create Account');
     echo form_close();
     ?>
+    <?php echo validation_errors('<p class="error">');?>
 
 </div>
