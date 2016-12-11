@@ -93,10 +93,11 @@ class CI_Controller {
 		return self::$instance;
 	}
 
-    public function load_HFview($view){
-        $this->load->view('includes/view_header');
-        $this->load->view($view);
-        $this->load->view('includes/view_footer');
+    public function load_HFview($view, $title)
+    {
+            $this->load->view('includes/view_header', array('title' => $title));
+            $this->load->view($view);
+            $this->load->view('includes/view_footer');
     }
 
 }

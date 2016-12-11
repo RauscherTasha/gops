@@ -1,6 +1,6 @@
 <div id="reg_form">
 
-        <hi>Register! ect...</hi>
+        <h1>Register! ect...</h1>
 
 
     <?php

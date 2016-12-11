@@ -10,7 +10,15 @@
 <html lang="en">
 <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8">
-    <title>Login!</title>
-    <link rel="stylesheet" href="<?php echo base_url("css/bootstrap.css"); ?>" />
+    <title>
+        <?php if (isset($title)) {
+            echo $title;
+        } else {
+            echo 'GOPS.net';
+        } ?>
+    </title>
+    <link rel="stylesheet" href="<?php echo base_url("css/bootstrap.css"); ?>"/>
+    <script src="<?php echo base_url("js/jquery-3.1.1.js"); ?>"></script>
+    <script src="<?php echo base_url("js/bootstrap.js"); ?>"></script>
 </head>
 <body>

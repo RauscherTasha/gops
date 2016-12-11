@@ -30,7 +30,20 @@ class Model_user extends CI_Model
         if ($this->db->affected_rows() === 1) {
             return $usern;
         } else {
+           $this->load->library('email');
+           $this->email->form('nami.robin@gmx.net','gops register');
+           $this->email->to('nami.robin@gmx.net');
+           $this->emial->subject('gops.net Error registration');
+
+           if (isset($email)){
+               $this->email->message('Unable to register & insert user with mail of ' . $email. 'to the database');
+           } else{
+               $this->email->message('Unable to register & insert user to the database');
+           }
         }
+
+        $this->email->send();
+        return NULL;
 
 
     }

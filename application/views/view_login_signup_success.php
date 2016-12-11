@@ -1,6 +1,6 @@
 <div id="reg_form">
 
-        <hi><?php   echo $username; ?></hi>
+        <h1><?php   echo $result; ?></h1>
 
     TODO
 

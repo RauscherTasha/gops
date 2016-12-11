@@ -1,8 +1,13 @@
 <div id="login_form">
-    <?php if (isset($accoun_created)) { ?>
-        <h3><?php echo $accoun_created; ?></h3>
+    <?php if (isset($result)) { ?>
+        <div id="welome">
+            <h1>Welcome <?php echo $result; ?></h1>
+            You have successfully Registered yourself. </br> Please check your emails for a validation link & then login ;)
+        </div>
+
+
     <?php } else { ?>
-        <hi>Login & enter blabla TODO</hi>
+        <h1>Login & enter blabla TODO</h1>
     <?php } ?>
 
     <?php

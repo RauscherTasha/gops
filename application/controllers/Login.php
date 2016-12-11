@@ -5,12 +5,12 @@ class Login extends CI_Controller
 {
     public function index()
     {
-        $this->load_HFview('view_login_form');
+        $this->load_HFview('view_login_form','GOPS Login');
     }
 
     public function signup()
     {
-        $this->load_HFview('view_login_signup');
+        $this->load_HFview('view_login_signup','GOPS Register');
 
     }
 
@@ -37,14 +37,19 @@ class Login extends CI_Controller
 
         if ($this->form_validation->run() == FALSE) {
             //user didn't validate
-            $this->load_HFview('view_login_signup');
+            $this->load_HFview('view_login_signup','GOPS Register');
+
+
         } else {
             $this->load->model('model_user');
 
             $result = $this->model_user->insert_user();
 
-            $this->load->view('includes/view_header');
-            $this->load->view('view_login_signup_success', array('username' => $result));
+            //$this->load->view('view_login');
+
+
+            $this->load->view('includes/view_header', array ('title'=>'GOPS Login'));
+            $this->load->view('view_login_form', array ('result'=>$result));
             $this->load->view('includes/view_footer');
 
         }
