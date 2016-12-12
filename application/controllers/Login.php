@@ -3,6 +3,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Login extends CI_Controller
 {
+    public function __construct()
+    {
+        parent::__construct();
+        $this->load->model('model_user');
+    }
+
     public function index()
     {
         $this->load_HFview('view_login_form','GOPS Login');
@@ -41,17 +47,18 @@ class Login extends CI_Controller
 
 
         } else {
-            $this->load->model('model_user');
-
             $result = $this->model_user->insert_user();
 
             //$this->load->view('view_login');
-
 
             $this->load->view('includes/view_header', array ('title'=>'GOPS Login'));
             $this->load->view('view_login_form', array ('result'=>$result));
             $this->load->view('includes/view_footer');
 
         }
+    }
+    public  function validate_email(){
+
+
     }
 }
