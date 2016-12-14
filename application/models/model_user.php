@@ -15,6 +15,8 @@ class Model_user extends CI_Model
 
     public function insert_user()
     {
+        $this->load->library('email');
+
 
         $email = $this->input->post('email');
         $username = $this->input->post('username');
@@ -28,16 +30,16 @@ class Model_user extends CI_Model
         $this->db->insert('users', $data);
 
         if ($this->db->affected_rows() === 1) {
-
+            print_r('before set_session '.$username);
             $this->set_session($username,$email);
             $this->send_validation_email($email);
 
             return $username;
         } else {
             $this->load->library('email');
-            $this->email->form($this->config->item('email'), 'gops register');
+            $this->email->from($this->config->item('email'), 'gops register');
             $this->email->to($this->config->item('email'));
-            $this->emial->subject('gops.net Error registration');
+            $this->email->subject('gops.net Error registration');
 
             if (isset($email)) {
                 $this->email->message('Unable to register & insert user with mail of ' . $email . 'to the database');
@@ -56,18 +58,21 @@ class Model_user extends CI_Model
     {
 
 
-        /*$sql = "SELECT id,reg_time, email FROM users WHERE username = ' . $username . ' LIMIT 1";
-        $result = $this->db->query($sql);
-        print_r($result);
-        $row = $result->row();*/
-        $this->db->select('id, reg_time');
-        $this->db->where('username', $username);
 
-        $result = $this->db->get('users');
-        print_r($result);
-        //$reg_time = $this->db->get('reg_time');
-        //$result = $this->db->query($sql);
+        $this->db->select('id, reg_time');
+        $this->db->from('users');
+        $this->db->where('username', $this->db->escape($username));
+
+        $result = $this->db->get();
+
         $row = $result->row();
+        if (isset($row)){
+            echo $row->id;
+            echo $row->reg_time;
+        } else{
+            echo 'DAFUQ';
+
+        }
         $sess_data = array(
             'user_id' => $row->id,
             'username' => $username,
@@ -79,23 +84,24 @@ class Model_user extends CI_Model
         $this->session->set_userdata($sess_data);
 
 
+
     }
 
     private function send_validation_email($email)
     {
-        $this->load->library('email');
+        //$this->load->library('email');
 
         $email = $this->session->userdata('email');
         $email_code = $this->email_code;
 
-        $this->email->set_mamiltype('html');
-        $this->email->form($this->config->item('email'), 'gops register');
+        $this->email->set_mailtype('html');
+        $this->email->from($this->config->item('email'), 'gops register');
         $this->email->to($this->config->item('email')); //TODO testing for now but later change to $email
-        $this->emial->subject('Please Validate your Registration at gops.net');
+        $this->email->subject('Please Validate your Registration at gops.net');
 
         $measage = '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"></head> <body>';
 
-        $measage .= '<p>Dear ' .$this->session->userdata(username) .',/p>';
+        $measage .= '<p>Dear ' .$this->session->userdata('username') .',</p>';
 
         $measage .= '<p> thanks for reging on gops.net Please <strong> <a href="'.base_url().'login/validate_email/'. $email.'/'.$email_code.'"> click here to </a></strong> to activate your Account';
 

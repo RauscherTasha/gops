@@ -35,11 +35,13 @@ class Login extends CI_Controller
         $this->load->helper('security');
 
         // validation rules
-        //TODO check xss_clean bzw xss_clean()
+        //TODO check xss_clean bzw xss_clean() https://www.codeigniter.com/user_guide/helpers/security_helper.html#id2
         $this->form_validation->set_rules('email', 'Email Address', 'trim|required|valid_email|max_length[65]|is_unique[users.email]|xss_clean');
         $this->form_validation->set_rules('username', 'Username', 'trim|required|min_length[3]|max_length[25]|is_unique[users.username]|xss_clean');
         $this->form_validation->set_rules('password', 'Password', 'trim|required|min_length[4]|max_length[60]|matches[password_confirm]|xss_clean');
         $this->form_validation->set_rules('password_confirm', 'Confirmed Password', 'trim|required|min_length[4]|max_length[60]|xss_clean');
+
+
 
         if ($this->form_validation->run() == FALSE) {
             //user didn't validate
