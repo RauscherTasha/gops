@@ -59,7 +59,21 @@ class Login extends CI_Controller
 
         }
     }
-    public  function validate_email(){
+    public  function validate_email($email_address, $email_code){
+        $email_code = trim($email_code);
+
+        $validated = $this->model_user->validate_email($email_address, $email_code);
+
+        if ($validated === true){
+            $this->load->view('includes/view_header', array ('title'=>'GOPS Email adress Verified'));
+            $this->load->view('view_login_email_validated', array ('email_adress'=>$email_address));
+            $this->load->view('includes/view_footer');
+        }
+        else {
+            echo 'OHHHNOOOOOOO!!!!!';
+        }
+
+        //echo 'avilable mabye soone xE';
 
 
     }
