@@ -1,5 +1,10 @@
-<div>
 
-        <h1>Your email adress <?php   echo $email_adress; ?> has been verified</h1>
+<?php if ($logged_in) { ?>
+    <div id="welome">
+        <h1>Welcome <?php echo $this->session->userdata('username'); ?></h1>
+    </div>
 
-</div>
+
+<?php } else { ?>
+    <h1>O.o why are you doing here?</h1>
+<?php } ?>

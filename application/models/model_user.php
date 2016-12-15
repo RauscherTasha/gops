@@ -13,6 +13,38 @@ class Model_user extends CI_Model
         parent::__construct();
     }
 
+    public function login_user()
+    {
+        $email = $this->input->post('email');
+        $pw = md5($this->input->post('password'));// sha1($this->config->item('encryption_key'), $this->input->post('password'));
+
+        $this->db->select('pw,validated_email');
+        $this->db->from('users');
+        $this->db->where('email', $email);
+        $this->db->limit(1);
+
+        $result = $this->db->get();
+        $row = $result->row();
+
+        print_r('before set_session ' . $pw .'   database PW:   '. $row->pw);
+
+        if (isset($row)) {
+            if ($pw == $row->pw) {
+                if ($row->validated_email) {
+                    $this->set_session($email,1);
+                    return 'logged in';
+                } else {
+                    return 'email_not_validated';
+                }
+            } else {
+                return 'incorrect_password';
+            }
+        } else {
+            return 'email_not_found';
+        }
+
+    }
+
     public function insert_user()
     {
         $this->load->library('email');
@@ -20,7 +52,7 @@ class Model_user extends CI_Model
 
         $email = $this->input->post('email');
         $username = $this->input->post('username');
-        $pw = sha1($this->config->item('encryption_key'), $this->input->post('password'));
+        $pw = md5 ($this->input->post('password'));//sha1($this->config->item('encryption_key'), $this->input->post('password'));
         /*
                 $sql = "INSERT INTO 'users' ('id', 'email', 'username', 'pw', 'validated_email') VALUES (NULL,'" . $email . "','" . $this->db->escape($usern) . "','" . $pw . "', '')"; //$this->db->escape($email)
                 $result = $this->db->query($sql);
@@ -30,8 +62,8 @@ class Model_user extends CI_Model
         $this->db->insert('users', $data);
 
         if ($this->db->affected_rows() === 1) {
-            print_r('before set_session ' . $username);
-            $this->set_session($username, $email);
+            //print_r('before set_session ' . $username);
+            $this->set_session($email,0);
             $this->send_validation_email($email);
 
             return $username;
@@ -54,29 +86,29 @@ class Model_user extends CI_Model
 
     }
 
-    private function set_session($username, $email)
+    private function set_session($email,$logedin)
     {
 
-        $this->db->select('id, reg_time');
+        $this->db->select('id, username, reg_time');
         $this->db->from('users');
-        $this->db->where('username', $this->db->escape($username));
+        $this->db->where('email', $email);
         $this->db->limit(1);
 
         $result = $this->db->get();
-
         $row = $result->row();
-        if (isset($row)) {
-            echo $row->id;
-            echo $row->reg_time;
-        } else {
-            echo 'DAFUQ';
+        /*
+                if (isset($row)) {
+                    echo $row->id;
+                    echo $row->reg_time;
+                } else {
+                    echo 'DAFUQ';
 
-        }
+                }*/
         $sess_data = array(
             'user_id' => $row->id,
-            'username' => $username,
+            'username' => $row->username,
             'email' => $email,
-            'loged_in' => 0
+            'loged_in' => $logedin
         );
 
         $this->email_code = md5((string)$row->reg_time);
