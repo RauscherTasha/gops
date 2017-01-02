@@ -8,7 +8,7 @@
     </script>
 
     <?php
-    echo form_open('login/create_account','"class="form-horizonta" data-fv-framework="bootstrap"
+    echo form_open('register/create_account','"class="form-horizonta" data-fv-framework="bootstrap"
     data-fv-icon-valid="glyphicon glyphicon-ok"
     data-fv-icon-invalid="glyphicon glyphicon-remove"
     data-fv-icon-validating="glyphicon glyphicon-refresh"');

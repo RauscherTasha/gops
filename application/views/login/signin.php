@@ -27,7 +27,7 @@
     echo '</div></div>';
 
     echo form_submit('submit', 'Login');
-    echo anchor('login/signup', 'Create Account');
+    echo anchor('register', 'Create Account');
     echo form_close();
     ?>
     <?php echo validation_errors('<p class="error">');?>

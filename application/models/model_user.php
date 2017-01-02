@@ -132,7 +132,7 @@ class Model_user extends CI_Model
 
         $measage .= '<p>Dear ' . $this->session->userdata('username') . ',</p>';
 
-        $measage .= '<p> thanks for reging on gops.net Please <strong> <a href="' . base_url() . 'login/validate_email/' . $email . '/' . $email_code . '"> click here to </a></strong> to activate your Account';
+        $measage .= '<p> thanks for reging on gops.net Please <strong> <a href="' . base_url() . 'register/validate_email/' . $email . '/' . $email_code . '"> click here to </a></strong> to activate your Account';
 
         $measage .= '</body> </html>';
 
