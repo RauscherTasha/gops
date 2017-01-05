@@ -36,45 +36,6 @@ class Register extends CI_Controller
     }
 
 
-    public function validate_credentials()
-    {
-        //$this->load->view('includes/view_header');
-        //echo "Validate coming soon!"; //TODO
-        //$this->load->view('includes/view_footer');
-
-        $this->form_validation->set_rules('email', 'Email Address', 'trim|required|valid_email|max_length[65]|xss_clean');
-        $this->form_validation->set_rules('password', 'Password', 'trim|required|min_length[4]|max_length[60]|xss_clean');
-
-        if ($this->form_validation->run() == FALSE) {
-            //user didn't validate right
-            $this->load_HFview('login/signin', 'GOPS Login');
-
-
-        } else {
-            $result = $this->model_user->login_user();
-
-            switch ($result) {
-                case 'logged in':
-                    echo 'logged in';
-                    redirect('/', 'location');  //if website will runn on windows server find a diffeten method instead of 'location'
-                    break;
-
-                case 'email_not_validated':
-                    echo 'email not veried';
-                    break;
-                case 'incorrect_password':
-                    echo 'wrong password';
-                    break;
-                case 'email_not_found':
-                    echo 'email not found';
-                    break;
-
-
-            }
-
-        }
-    }
-
     public function create_account()
     {
 

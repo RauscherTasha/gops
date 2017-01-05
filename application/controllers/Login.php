@@ -22,9 +22,10 @@ class Login extends CI_Controller
     public function index()
     {
         if ($this->logged_in) {
-            $this->load->view('includes/view_header', array('title' => 'GOPS Login'));
+            redirect('main');
+            /*$this->load->view('includes/view_header', array('title' => 'GOPS Login'));
             $this->load->view('login/success', array('logged_in' => $this->logged_in));
-            $this->load->view('includes/view_footer');
+            $this->load->view('includes/view_footer');*/
 
         } else {
             $this->load_HFview('login/signin', 'GOPS Login');
@@ -51,7 +52,7 @@ class Login extends CI_Controller
             switch ($result) {
                 case 'logged in':
                     echo 'logged in';
-                    redirect('/', 'location');  //if website will runn on windows server find a diffeten method instead of 'location'
+                    redirect('/', 'location');
                     break;
 
                 case 'email_not_validated':
