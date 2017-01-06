@@ -56,7 +56,7 @@ class Login extends CI_Controller
                     break;
 
                 case 'email_not_validated':
-                    echo 'email not veried';
+                    echo 'email not veried'; //TODO
                     break;
                 case 'incorrect_password':
                     echo 'wrong password';
