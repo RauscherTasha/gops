@@ -89,7 +89,7 @@ class Model_user extends CI_Model
     private function set_session($email,$logedin)
     {
 
-        $this->db->select('id, username, reg_time');
+        $this->db->select('UID, username, reg_time');
         $this->db->from('users');
         $this->db->where('email', $email);
         $this->db->limit(1);
@@ -105,7 +105,7 @@ class Model_user extends CI_Model
 
                 }*/
         $sess_data = array(
-            'user_id' => $row->id,
+            'user_id' => $row->UID,
             'username' => $row->username,
             'email' => $email,
             'loged_in' => $logedin
