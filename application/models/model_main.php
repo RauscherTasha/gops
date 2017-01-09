@@ -6,17 +6,38 @@
  * Date: 10/12/2016
  * Time: 23:39
  */
-class Model_user extends CI_Model
+class Model_main extends CI_Model
 {
     public function __construct()
     {
         parent::__construct();
     }
 
-    public function login_user()
+    public function add_friend(){
+
+        //check if already in db
+        $this->db->select('UID1,UID2');
+        $this->db->from('friends');
+        $this->db->where('UID1', '1');
+        $this->db->or_where('UID1', '2');
+        $this->db->or_where('UID2', '1');
+        $this->db->or_where('UID2', '2');
+        $this->db->limit(1);
+
+        $result = $this->db->get();
+
+        //TODO add check that user dosent befriend himself
+        if($result->num_rows()==0 ) {
+            $this->db->insert('friends', array('UID1' => '1', 'UID2' => '2'));
+        }
+
+    }
+
+    public function new_game()
     {
+        /*
         $email = $this->input->post('email');
-        $pw = md5($this->input->post('password'));// sha1($this->config->item('encryption_key'), $this->input->post('password'));
+        $pw = md5($this->input->post('password'));
 
         $this->db->select('pw,validated_email');
         $this->db->from('users');
@@ -26,12 +47,12 @@ class Model_user extends CI_Model
         $result = $this->db->get();
         $row = $result->row();
 
-        print_r('before set_session ' . $pw .'   database PW:   '. $row->pw);
+        print_r('before set_session ' . $pw . '   database PW:   ' . $row->pw);
 
         if (isset($row)) {
             if ($pw == $row->pw) {
                 if ($row->validated_email) {
-                    $this->set_session($email,1);
+                    $this->set_session($email, 1);
                     return 'logged in';
                 } else {
                     return 'email_not_validated';
@@ -42,6 +63,8 @@ class Model_user extends CI_Model
         } else {
             return 'email_not_found';
         }
+*/
+
 
     }
 
@@ -52,7 +75,7 @@ class Model_user extends CI_Model
 
         $email = $this->input->post('email');
         $username = $this->input->post('username');
-        $pw = md5 ($this->input->post('password'));//sha1($this->config->item('encryption_key'), $this->input->post('password'));
+        $pw = md5($this->input->post('password'));//sha1($this->config->item('encryption_key'), $this->input->post('password'));
         /*
                 $sql = "INSERT INTO 'users' ('id', 'email', 'username', 'pw', 'validated_email') VALUES (NULL,'" . $email . "','" . $this->db->escape($usern) . "','" . $pw . "', '')"; //$this->db->escape($email)
                 $result = $this->db->query($sql);
@@ -63,7 +86,7 @@ class Model_user extends CI_Model
 
         if ($this->db->affected_rows() === 1) {
             //print_r('before set_session ' . $username);
-            $this->set_session($email,0);
+            $this->set_session($email, 0);
             $this->send_validation_email($email);
 
             return $username;
@@ -86,7 +109,7 @@ class Model_user extends CI_Model
 
     }
 
-    private function set_session($email,$logedin)
+    private function set_session($email, $logedin)
     {
 
         $this->db->select('UID, username, reg_time');
@@ -113,72 +136,5 @@ class Model_user extends CI_Model
 
         $this->email_code = md5((string)$row->reg_time);
         $this->session->set_userdata($sess_data);
-
-
-    }
-
-    private function send_validation_email($email)
-    {
-        //$this->load->library('email');
-
-        $email_code = $this->email_code;
-
-        $this->email->set_mailtype('html');
-        $this->email->from($this->config->item('email'), 'gops register');
-        $this->email->to($email); //TO_DOne testing for now but later change to $email
-        $this->email->subject('Please Validate your Registration at gops.net');
-
-        $measage = '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"></head> <body>';
-
-        $measage .= '<p>Dear ' . $this->session->userdata('username') . ',</p>';
-
-        $measage .= '<p> thanks for Registering on GOPS (Game of pure strategy) Please <strong> <a href="' . base_url() . 'register/validate_email/' . $email . '/' . $email_code . '"> click here </a></strong> to activate your Account.';
-
-        $measage .= '</body> </html>';
-
-        $this->email->message($measage);
-        $this->email->send();
-
-    }
-
-    public function validate_email($email_adress, $email_code)
-    {
-
-        $this->db->select('reg_time');
-        $this->db->from('users');
-        $this->db->where('email', $email_adress);
-        $this->db->limit(1);
-
-        $result = $this->db->get();
-        $row = $result->row();
-        print_r($email_adress . '    ' . md5((string)$row->reg_time . '    ' . $email_code));
-
-        if (isset($row)) {
-            if (md5((string)$row->reg_time) === $email_code) {
-                $result = $this->activate_account($email_adress);
-                if ($result)
-                    return true;
-            }
-        } else {
-            return false;
-        }
-    }
-
-    private function activate_account($email_adress)
-    {
-        $this->db->set('validated_email', 1);
-        $this->db->where('email', $email_adress);
-        $this->db->update('users');
-        $this->db->trans_complete();
-
-        if ($this->db->affected_rows() == '1') {
-            return true;
-        } else {
-            // any trans error?
-            if ($this->db->trans_status() === FALSE) {
-                return false;
-            }
-            return true;
-        }
     }
 }

@@ -100,4 +100,11 @@ class CI_Controller {
             $this->load->view('includes/view_footer');
     }
 
+    public function load_HFviewAr($view, $title, $array)
+    {
+        $this->load->view('includes/view_header', array('title' => $title));
+        $this->load->view($view, $array);
+        $this->load->view('includes/view_footer');
+    }
+
 }

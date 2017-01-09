@@ -6,7 +6,7 @@
  * Date: 10/12/2016
  * Time: 23:39
  */
-class Model_user extends CI_Model
+class Model_game extends CI_Model
 {
     public function __construct()
     {

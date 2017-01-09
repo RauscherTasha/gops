@@ -18,9 +18,10 @@ class Game extends CI_Controller
     {
 
         if ($this->logged_in) {
-        $this->load->view('includes/view_header', array('title' => 'GOPS'));
+            $this->load_HFviewAr('game/game','GOPS', array('logged_in' => $this->logged_in));
+        /*$this->load->view('includes/view_header', array('title' => 'GOPS'));
         $this->load->view('game/game', array('logged_in' => $this->logged_in));
-        $this->load->view('includes/view_footer');
+        $this->load->view('includes/view_footer');*/
         } else {
             redirect('login');
         }

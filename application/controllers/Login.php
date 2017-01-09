@@ -34,9 +34,7 @@ class Login extends CI_Controller
 
     public function validate_credentials()
     {
-        //$this->load->view('includes/view_header');
-        //echo "Validate coming soon!"; //TODO
-        //$this->load->view('includes/view_footer');
+
 
         $this->form_validation->set_rules('email', 'Email Address', 'trim|required|valid_email|max_length[65]|xss_clean');
         $this->form_validation->set_rules('password', 'Password', 'trim|required|min_length[4]|max_length[60]|xss_clean');
@@ -59,10 +57,10 @@ class Login extends CI_Controller
                     echo 'email not veried'; //TODO
                     break;
                 case 'incorrect_password':
-                    echo 'wrong password';
+                    echo 'wrong password'; //TODO
                     break;
                 case 'email_not_found':
-                    echo 'email not found';
+                    echo 'email not found'; //TODO
                     break;
 
 

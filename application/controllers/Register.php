@@ -73,10 +73,13 @@ class Register extends CI_Controller
         $validated = $this->model_user->validate_email($email_address, $email_code);
 
         if ($validated === true) {
-            $this->load->view('includes/view_header', array('title' => 'GOPS Email adress Verified'));
+            //TODO change to login/signin with text email validated
+            $this->load_HFviewAr('register/email_validated', 'GOPS Email adress Verified',array('email_adress' => $email_address) );
+           /* $this->load->view('includes/view_header', array('title' => 'GOPS Email adress Verified'));
             $this->load->view('register/email_validated', array('email_adress' => $email_address));
-            $this->load->view('includes/view_footer');
+            $this->load->view('includes/view_footer');*/
         } else {
+            //TODO
             echo 'OHHHNOOOOOOO!!!!!';
         }
 
